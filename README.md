@@ -22,3 +22,22 @@
 
 ![图片名称](auto.png)
 
+
+##### 配置spring-boot-starter-mail监控应用状态变化
+```
+  spring.mail.host=smtp.163.com
+  spring.mail.username=springbootadmin163@163.com
+  spring.mail.password=spring123
+  spring.mail.properties.mail.smtp.auth=true
+  spring.mail.properties.mail.smtp.starttls.enable=true
+  spring.mail.properties.mail.smtp.starttls.required=true
+  
+  spring.boot.admin.notify.mail.from=${spring.mail.username}
+  
+  spring.boot.admin.notify.mail.to=want2015@yeah.net
+```
+* 163邮箱开启smtp需要配置授权码，`password`设置成配置的授权码
+* `spring.boot.admin.notify.mail.from`需配置成和`spring.mail.username`相同的值
+* `spring.boot.admin.notify.mail.to` 接受通知的邮件地址
+* `spring.boot.admin.notify.mail.template` 可以配置自定义模板 
+

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableAdminServer
 @EnableEurekaClient
@@ -44,6 +45,7 @@ public class AdminServerApplication {
             // @formatter:off
             SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
             successHandler.setTargetUrlParameter("redirectTo");
+            successHandler.setDefaultTargetUrl(adminContextPath + "/");
 
             http.authorizeRequests()
                     .antMatchers(adminContextPath + "/assets/**").permitAll()
@@ -53,7 +55,12 @@ public class AdminServerApplication {
                     .formLogin().loginPage(adminContextPath + "/login").successHandler(successHandler).and()
                     .logout().logoutUrl(adminContextPath + "/logout").and()
                     .httpBasic().and()
-                    .csrf().disable();
+                    .csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                    .ignoringAntMatchers(
+                            adminContextPath + "/instances",
+                            adminContextPath + "/actuator/**"
+                    );
             // @formatter:on
         }
     }
