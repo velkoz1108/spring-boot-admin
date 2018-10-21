@@ -41,3 +41,19 @@
 * `spring.boot.admin.notify.mail.to` 接受通知的邮件地址
 * `spring.boot.admin.notify.mail.template` 可以配置自定义模板 
 
+##Sleuth使用
+* 引入sleuth依赖
+```
+  <dependency>
+     <groupId>org.springframework.cloud</groupId>
+     <artifactId>spring-cloud-starter-sleuth</artifactId>
+  </dependency>
+```
+输出日志中显示如下信息
+
+![图片名称](sleuth.jpg)    
+
+* application name — 应用的名称，也就是application.properties中的spring.application.name参数配置的属性。
+* traceId — 为一个请求分配的ID号，用来标识一条请求链路。
+* spanId — 表示一个基本的工作单元，一个请求可以包含多个步骤，每个步骤都拥有自己的spanId。一个请求包含一个TraceId，多个SpanId
+* export — 布尔类型。表示是否要将该信息输出到类似Zipkin这样的聚合器进行收集和展示。
