@@ -11,8 +11,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FeignConfig {
-    @Bean
-    FeignReuqestHandler feignReuqestHandler() {
-        return new FeignReuqestHandler();
-    }
+
 }
