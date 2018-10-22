@@ -15,13 +15,15 @@ import java.nio.charset.Charset;
  *
  * BasicAuthRequestInterceptor.apply方法   template.header("Authorization", headerValue);
  * 将信息放入请求头中
+ *
+ * 当访问的server需要密码时，可以在此处配置
  */
 @Slf4j
 @Configuration
 public class FeignConfig {
-    @Value("${auth.client.username:username}")
+    @Value("${auth.client.username:admin}")
     private String username;
-    @Value("${auth.client.password:123456}")
+    @Value("${auth.client.password:admin123}")
     private String password;
 
 
