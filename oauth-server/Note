@@ -1,0 +1,49 @@
+ClientDetailsServiceConfigurer：用来配置客户端详情服务（ClientDetailsService），客户端详情信息在这里进行初始化，
+你能够把客户端详情信息写死在这里或者是通过数据库来存储调取详情信息
+
+
+AuthorizationServerSecurityConfigurer：用来配置令牌端点(Token Endpoint)的安全约束.
+
+
+AuthorizationServerEndpointsConfigurer：用来配置授权（authorization）以及令牌（token）的访问端点和令牌服务(token services)。
+
+
+以上的配置可以选择继承AuthorizationServerConfigurerAdapter并且覆写其中的三个configure方法来进行配置。
+
+
+ClientDetailsServiceConfigurer (AuthorizationServerConfigurer 的一个回调配置项，见上的概述)
+能够使用内存或者JDBC来实现客户端详情服务（ClientDetailsService），有几个重要的属性如下列表：
+clientId：（必须的）用来标识客户的Id。
+secret：（需要值得信任的客户端）客户端安全码，如果有的话。
+scope：用来限制客户端的访问范围，如果为空（默认）的话，那么客户端拥有全部的访问范围。
+authorizedGrantTypes：此客户端可以使用的授权类型，默认为空。
+authorities：此客户端可以使用的权限（基于Spring Security authorities）。
+
+InMemoryTokenStore：这个版本的实现是被默认采用的，它可以完美的工作在单服务器上（即访问并发量压力不大的情况下，并且它在失败的时候不会进行备份），
+大多数的项目都可以使用这个版本的实现来进行尝试，你可以在开发的时候使用它来进行管理，因为不会被保存到磁盘中，所以更易于调试。
+
+JdbcTokenStore：这是一个基于JDBC的实现版本，令牌会被保存进关系型数据库。使用这个版本的实现时，你可以在不同的服务器之间共享令牌信息，
+使用这个版本的时候请注意把"spring-jdbc"这个依赖加入到你的classpath当中。
+
+JwtTokenStore：这个版本的全称是 JSON Web Token（JWT），它可以把令牌相关的数据进行编码（因此对于后端服务来说，它不需要进行存储，这将是一个重大优势），
+但是它有一个缺点，那就是撤销一个已经授权令牌将会非常困难，所以它通常用来处理一个生命周期较短的令牌以及撤销刷新令牌（refresh_token）。
+另外一个缺点就是这个令牌占用的空间会比较大，如果你加入了比较多用户凭证信息。JwtTokenStore 不会保存任何数据，
+但是它在转换令牌值以及授权信息方面与 DefaultTokenServices 所扮演的角色是一样的。
+
+
+端点 org.springframework.security.oauth2.provider.endpoint.
+AuthorizationEndpoint      -->     /oauth/authorize：授权端点。
+TokenEndpoint              -->     /oauth/token：令牌端点。
+WhitelabelApprovalEndpoint -->     /oauth/confirm_access：用户确认授权提交端点。
+WhitelabelErrorEndpoint    -->     /oauth/error：授权服务错误信息端点。
+CheckTokenEndpoint         -->     /oauth/check_token：用于资源服务访问的令牌解析端点。
+TokenKeyEndpoint           -->     /oauth/token_key：提供公有密匙的端点，如果你使用JWT令牌的话。
+
+
+@FrameworkEndpoint
+@SessionAttributes("authorizationRequest")
+
+
+
+
+

@@ -1,0 +1,21 @@
+1.访问client_1，使用client_credentials授权模式
+    请求： http://localhost:8080/oauth/token?grant_type=client_credentials&scope=all&client_id=client_1&client_secret=123456
+    响应： {"access_token":"8ddd99c7-d21d-403e-a912-ec1500817e61","token_type":"bearer","expires_in":41445,"scope":"all"}
+
+    带token请求受限资源
+    请求： http://localhost:8080/order/222?access_token=8ddd99c7-d21d-403e-a912-ec1500817e61
+    响应： order id : 222
+
+2.访问client_2，使用password授权模式
+    请求： http://localhost:8080/oauth/token?username=admin&password=admin&grant_type=password&scope=client_2_select&client_id=client_2&client_secret=123456
+    响应： {"access_token":"6d0905d3-e333-4e4c-b800-1ffb2758f563","token_type":"bearer","refresh_token":"d10ea9a4-26c9-434b-8718-230ff817bac4","expires_in":43199,"scope":"client_2_select"}
+
+    带token请求受限资源
+    请求： http://localhost:8080/order/666?access_token=6d0905d3-e333-4e4c-b800-1ffb2758f563
+    响应： order id : 666
+
+    注： username=admin  password=admin 是security的用户
+
+3.访问client_3，使用code模式
+   postman测试 GET请求  Basic Auth 中添加
+    http://localhost:8080/oauth/authorize?response_type=code&client_id=client_3&redirect_uri=http://localhost:8080/user&scope=all
