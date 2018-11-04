@@ -1,6 +1,7 @@
 package com.wangtao.oauthserver.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,14 +11,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * @author : wangtao
  * @date : 2018/11/1 11:08  星期四
  */
+@Order(6)
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -28,11 +30,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         String finalPassword = passwordEncoder().encode("123456");
         String adminPassword = passwordEncoder().encode("admin");
 
-        //创建内存用户
+        /**创建内存用户
+         * <code>builder.roles("USER","ADMIN");</code>
+         * is equivalent to
+         * <code>builder.authorities("ROLE_USER","ROLE_ADMIN");</code>
+         */
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user_4").password(finalPassword).authorities("USER").build());
-        manager.createUser(User.withUsername("user_1").password(finalPassword).authorities("USER").build());
-        manager.createUser(User.withUsername("admin").password(adminPassword).authorities("oauth2").build());
+        manager.createUser(User.withUsername("client_2").password(finalPassword).authorities("ROLE_CLIENT2").build());
+        manager.createUser(User.withUsername("admin").password(adminPassword).authorities("ROLE_USER").build());
         return manager;
     }
 
@@ -65,7 +70,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests().antMatchers("/oauth/**", "/login/**", "/logout", "forward:/**").permitAll()
+                .authorizeRequests().antMatchers("/oauth/**", "/login/**", "/logout").permitAll()
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and()

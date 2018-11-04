@@ -7,7 +7,8 @@ package com.wangtao.oauthserver.common;
 
 
 public interface Constant {
-    String DEMO_RESOURCE_ID = "demo resource id";
-    String DEMO_RESOURCE_ID2 = "demo resource id2";
-    String DEMO_RESOURCE_ID3 = "demo resource id3";
+    String RESOURCE_ORDER = "order";
+    String RESOURCE_PRODUCT = "product";
+    String RESOURCE_CLIENT1 = "client1";
+    String RESOURCE_CLIENT2 = "client2";
 }

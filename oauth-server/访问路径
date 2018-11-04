@@ -17,5 +17,24 @@
     注： username=admin  password=admin 是security的用户
 
 3.访问client_3，使用code模式
-   postman测试 GET请求  Basic Auth 中添加
-    http://localhost:8080/oauth/authorize?response_type=code&client_id=client_3&redirect_uri=http://localhost:8080/user&scope=all
+    获取code
+    请求： http://localhost:8080/oauth/authorize?response_type=code&client_id=client_3
+    响应： http://localhost:8080/user?code=g65ZfS
+    跳转到配置的redirect_uri路径，并在参数项中显示code值，如code=g65ZfS
+
+    带code获取token
+    请求： http://localhost:8080/oauth/token?code=g65ZfS&client_id=client_3&client_secret=123456&redirect_uri=http://localhost:8080/user&grant_type=authorization_code&scope=all
+    响应： {"access_token":"7fbd512f-ca33-471a-8772-b3b3006f5686","token_type":"bearer","refresh_token":"73345350-bdda-4ea6-ac7c-4bf1a819505d","expires_in":42814,"scope":"all"}
+
+4.检查token
+    请求： http://localhost:8080/oauth/check_token?token=e44300c7-6769-48d1-b59a-4f3da450e376
+    响应： {"aud":["client1","order"],"scope":["all"],"active":true,"exp":1541356376,"authorities":["ROLE_CLIENT1"],"client_id":"client_1"}
+
+
+
+疑问：
+当设置SecurityConfiguration的@Order(6)，AuthorizationServerConfiguration的@Order(1)，ResourceServerConfiguration的@Order(2)，
+client_credentials和password授权模式可以正常使用。而code模式不行，提示未授权
+
+当设置SecurityConfiguration的@Order(2)，AuthorizationServerConfiguration的@Order(5)，ResourceServerConfiguration的@Order(6)，
+client_credentials，password和code授权模式可以正常拿到token，但是访问其他资源均提示未授权。

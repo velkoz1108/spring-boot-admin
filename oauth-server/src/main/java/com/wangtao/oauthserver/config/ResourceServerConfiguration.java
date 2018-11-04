@@ -2,7 +2,9 @@ package com.wangtao.oauthserver.config;
 
 import com.wangtao.oauthserver.common.Constant;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -10,7 +12,14 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 /**
  * @author : wangtao
  * @date : 2018/11/1 11:06  星期四
+ * <p>
+ * <p>
+ * ResourceServerConfiguration 和 SecurityConfiguration上配置的顺序,  
+ * SecurityConfiguration一定要在ResourceServerConfiguration 之前，
+ * 因为spring实现安全是通过添加过滤器(Filter)来实现的，基本的安全过滤应该在oauth过滤之前,
+ * 所以在SecurityConfiguration设置@Order(2), 在ResourceServerConfiguration上设置@Order(6)
  */
+@Order(2)
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
@@ -29,7 +38,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
          * 只能加一个resourceId,多个会被覆盖，最后一个生效
          */
-        resources.resourceId(Constant.DEMO_RESOURCE_ID).stateless(true);
+        resources.resourceId(Constant.RESOURCE_CLIENT2).stateless(false);
     }
 
     /**
@@ -42,12 +51,21 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
      */
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests().antMatchers("/oauth/**", "/login/**", "/logout", "forward:/**").permitAll()
-                .and()
-                .authorizeRequests().anyRequest().authenticated()
-                .and()
-                .formLogin().and()
-                .httpBasic();
+        super.configure(http);
+//        http
+//                .httpBasic()
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/")
+//                .permitAll()
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/client1/**")
+//                .access("#oauth2.clientHasRole('CLIENT1')")
+//                .and()
+//                .authorizeRequests()
+//                .anyRequest()
+//                .authenticated()
+//        ;
     }
 }
