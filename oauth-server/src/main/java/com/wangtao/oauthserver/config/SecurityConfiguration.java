@@ -19,7 +19,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author : wangtao
  * @date : 2018/11/1 11:08  星期四
  */
-@Order(6)
+@Order(2)
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 

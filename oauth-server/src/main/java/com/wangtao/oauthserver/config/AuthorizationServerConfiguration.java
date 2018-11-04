@@ -58,7 +58,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .resourceIds(Constant.RESOURCE_ORDER, Constant.RESOURCE_CLIENT1)
                 .authorizedGrantTypes("client_credentials", "refresh_token")
                 .authorities("ROLE_CLIENT1")
-                .scopes("all")
+                .scopes("read", "trust")
                 .redirectUris("http://www.baidu.com")
                 .and()
 
@@ -66,7 +66,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .resourceIds(Constant.RESOURCE_ORDER, Constant.RESOURCE_CLIENT2)
                 .authorizedGrantTypes("password", "refresh_token")
                 .authorities("ROLE_CLIENT2")
-                .scopes("all")
+                .scopes("read", "trust")
                 .secret(finalSecret)
                 .and()
 
@@ -75,16 +75,16 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authorizedGrantTypes("authorization_code", "refresh_token")
                 .resourceIds(Constant.RESOURCE_ORDER)
                 .authorities("ROLE_USER")
-                .scopes("all")
+                .scopes("read", "trust")
                 .redirectUris("http://localhost:8080/user", "https://www.baidu.com", "https://www.qq.com")
                 .and()
 
                 .withClient("client_4")
                 .secret(finalSecret)
                 .authorizedGrantTypes("authorization_code", "refresh_token")
-                .resourceIds(Constant.RESOURCE_ORDER)
+                .resourceIds(Constant.RESOURCE_ORDER, Constant.RESOURCE_CLIENT2)
                 .authorities("ROLE_CLIENT2")
-                .scopes("all")
+                .scopes("read", "trust")
                 .redirectUris("http://localhost:8080/user", "https://www.baidu.com", "https://www.qq.com")
                 .autoApprove(true)
         ;
@@ -96,19 +96,19 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 //token 存入 redis
                 .tokenStore(new MyRedisTokenStore(redisConnectionFactory))
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-                .userDetailsService(userDetailsService)
+//                .userDetailsService(userDetailsService)
         ;
 
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-        //允许客户表单认证
-        oauthServer.allowFormAuthenticationForClients();
-        //设置oauth_client_details中的密码编码器
-        oauthServer.passwordEncoder(new BCryptPasswordEncoder());
-        //对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
-        oauthServer.checkTokenAccess("permitAll()");
-        oauthServer.tokenKeyAccess("permitAll()");
+        oauthServer
+                .realm(Constant.RESOURCE_CLIENT2)
+                //url:/oauth/token_key,exposes public key for token verification if using JWT tokens
+                .tokenKeyAccess("permitAll()")
+                //url:/oauth/check_token allow check token
+                .checkTokenAccess("isAuthenticated()")
+                .allowFormAuthenticationForClients();
     }
 }

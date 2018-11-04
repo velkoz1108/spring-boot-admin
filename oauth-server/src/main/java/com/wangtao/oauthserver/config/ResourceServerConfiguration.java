@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  * 因为spring实现安全是通过添加过滤器(Filter)来实现的，基本的安全过滤应该在oauth过滤之前,
  * 所以在SecurityConfiguration设置@Order(2), 在ResourceServerConfiguration上设置@Order(6)
  */
-@Order(2)
+@Order(6)
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
@@ -38,7 +38,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
          * 只能加一个resourceId,多个会被覆盖，最后一个生效
          */
-        resources.resourceId(Constant.RESOURCE_CLIENT2).stateless(false);
+        resources.resourceId(Constant.RESOURCE_CLIENT2);
     }
 
     /**
