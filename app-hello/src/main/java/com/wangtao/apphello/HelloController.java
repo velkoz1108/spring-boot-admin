@@ -1,5 +1,6 @@
 package com.wangtao.apphello;
 
+import com.wangtao.apphello.entity.SystemInfo;
 import com.wangtao.apphello.entity.UserInfo;
 import com.wangtao.apphello.feign.UserService;
 import io.micrometer.core.instrument.util.MathUtils;
@@ -29,5 +30,13 @@ public class HelloController {
     @RequestMapping("/validate")
     public String validate(@RequestParam("username") String username) {
         return userService.validate(username);
+    }
+
+    @Autowired
+    SystemInfo systemInfo;
+
+    @RequestMapping("/test")
+    public String test() {
+        return systemInfo.toString();
     }
 }
