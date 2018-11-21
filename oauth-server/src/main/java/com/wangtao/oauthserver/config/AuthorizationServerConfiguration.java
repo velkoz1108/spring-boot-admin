@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
  * @author : wangtao
  * @date : 2018/11/1 11:10  星期四
  */
-@Order(1)
+@Order(5)
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {

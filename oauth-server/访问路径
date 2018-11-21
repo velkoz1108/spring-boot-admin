@@ -18,7 +18,7 @@
 
 3.访问client_3，使用code模式
     获取code
-    请求： http://localhost:8080/oauth/authorize?response_type=code&client_id=client_3
+    请求： http://localhost:8080/oauth/authorize?response_type=code&client_id=client_3&redirect_uri=http://localhost:8080/user
     响应： http://localhost:8080/user?code=g65ZfS
     跳转到配置的redirect_uri路径，并在参数项中显示code值，如code=g65ZfS
 
