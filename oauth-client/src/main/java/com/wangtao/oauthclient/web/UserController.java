@@ -19,8 +19,9 @@ public class UserController {
 //        return principal;
 //    }
 
-    @RequestMapping({ "/user", "/me" })
+    @RequestMapping({"/user", "/me"})
     public Map<String, String> user(Principal principal) {
+        System.out.println("principal:" + principal.toString());
         Map<String, String> map = new LinkedHashMap<>();
         map.put("name", principal.getName());
         return map;

@@ -61,11 +61,25 @@ public class OauthClientApplication extends WebSecurityConfigurerAdapter {
         List<Filter> filters = new ArrayList<>();
         filters.add(ssoFilter(facebook(), "/login/facebook"));
         filters.add(ssoFilter(github(), "/login/github"));
+        filters.add(ssoFilter(myself(), "/login/myself"));
         filter.setFilters(filters);
         return filter;
     }
 
     private Filter ssoFilter(ClientResources client, String path) {
+        System.out.println();
+        System.out.println("-----------------------------------------------");
+        System.out.println("ClientId : " + client.getClient().getClientId());
+        System.out.println("AccessTokenUri : " + client.getClient().getAccessTokenUri());
+        System.out.println("GrantType : " + client.getClient().getGrantType());
+        System.out.println("TokenName : " + client.getClient().getTokenName());
+        System.out.println("Scope : " + client.getClient().getScope());
+        System.out.println("UserAuthorizationUri: " + client.getClient().getUserAuthorizationUri());
+        System.out.println("UseCurrentUri : " + client.getClient().isUseCurrentUri());
+        System.out.println("TokenType : " + client.getResource().getTokenType());
+        System.out.println("UserInfoUri : " + client.getResource().getUserInfoUri());
+        System.out.println("-----------------------------------------------");
+        System.out.println();
         OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(path);
         OAuth2RestTemplate template = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
         filter.setRestTemplate(template);
@@ -79,13 +93,22 @@ public class OauthClientApplication extends WebSecurityConfigurerAdapter {
     @Bean
     @ConfigurationProperties("github")
     public ClientResources github() {
-        return new ClientResources();
+        ClientResources clientResources = new ClientResources();
+        return clientResources;
     }
 
     @Bean
     @ConfigurationProperties("facebook")
     public ClientResources facebook() {
-        return new ClientResources();
+        ClientResources clientResources = new ClientResources();
+        return clientResources;
+    }
+
+    @Bean
+    @ConfigurationProperties("myself")
+    public ClientResources myself() {
+        ClientResources clientResources = new ClientResources();
+        return clientResources;
     }
 
     @Bean
