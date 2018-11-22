@@ -1,0 +1,23 @@
+security:
+  oauth2:
+    client:
+      client-id: acme
+      client-secret: acmesecret
+      scope: read,write
+#      auto-approve-scopes: '.*'
+      registered-redirect-uri: http://localhost:8080/login/myself
+spring:
+  security:
+    user:
+      password: password
+server:
+  port: 9999
+  servlet:
+    context-path: /admin
+    session:
+      cookie:
+        name: OAUTH_SESSIONID
+logging:
+  level:
+    org.springframework.security.oauth2: debug
+

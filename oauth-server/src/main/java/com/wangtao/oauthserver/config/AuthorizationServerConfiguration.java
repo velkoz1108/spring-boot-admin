@@ -76,7 +76,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .resourceIds(Constant.RESOURCE_ORDER)
                 .authorities("ROLE_USER")
                 .scopes("read", "trust")
-                .redirectUris("http://localhost:8080/user", "https://www.baidu.com", "https://www.qq.com")
+                .redirectUris("http://localhost:8080/")
                 .and()
 
                 .withClient("client_4")
