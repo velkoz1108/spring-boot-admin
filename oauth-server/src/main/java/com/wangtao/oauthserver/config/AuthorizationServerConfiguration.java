@@ -19,7 +19,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
  * @author : wangtao
  * @date : 2018/11/1 11:10  星期四
  */
-@Order(5)
+//@Order(5)
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
@@ -76,7 +76,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .resourceIds(Constant.RESOURCE_ORDER)
                 .authorities("ROLE_USER")
                 .scopes("read", "trust")
-                .redirectUris("http://localhost:8080/")
+                .redirectUris("http://localhost:8080/","http://localhost:8080/login/admin")
                 .and()
 
                 .withClient("client_4")
@@ -95,7 +95,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         endpoints.authenticationManager(authenticationManager)
                 //token 存入 redis
                 .tokenStore(new MyRedisTokenStore(redisConnectionFactory))
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+//                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
 //                .userDetailsService(userDetailsService)
         ;
 

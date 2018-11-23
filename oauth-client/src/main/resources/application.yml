@@ -45,15 +45,32 @@ google:
 #myself oauth2 setting
 myself:
   client:
+    clientId: client
+    clientSecret: 123456
+    accessTokenUri: http://47.97.180.239:8043/uaa/oauth/token
+    userAuthorizationUri: http://47.97.180.239:8043/uaa/oauth/authorize
+#    客户端对访问的令牌终端授权时使用的机制。 建议值： "http_basic" 和 "form"。 默认值： "http_basic"。
+#    clientAuthenticationScheme: form  加了一个form坑死自己了
+#    useCurrentUri: false
+#    registered-redirect-uri: http://localhost:8080/client
+  resource:
+    userInfoUri: http://47.97.180.239:8043/uaa/users/me
+
+#admin oauth2 setting
+admin:
+  client:
     clientId: client_3
-    clientSecret: $2a$10$cOf2Mzy7Nr.kVsdP13HIyewvY7DviOorG/j73IKvkQ50Vo6aYptTy
+    clientSecret: 123456
     accessTokenUri: http://localhost:8088/oauth/token
     userAuthorizationUri: http://localhost:8088/oauth/authorize
-    clientAuthenticationScheme: form
+    clientAuthenticationScheme: query
 #    useCurrentUri: false
 #    registered-redirect-uri: http://localhost:8080/client
   resource:
     userInfoUri: http://localhost:8088/user
+
+
+
 server:
   port: 8080
   servlet:
@@ -63,4 +80,4 @@ server:
         name: CLIENT_SESSIONID
 logging:
   level:
-    org.springframework.security.oauth2: debug
+    org.springframework.security: debug
