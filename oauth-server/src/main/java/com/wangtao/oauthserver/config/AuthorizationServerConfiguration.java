@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 
 /**
  * @author : wangtao
@@ -75,8 +76,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .authorizedGrantTypes("authorization_code", "refresh_token")
                 .resourceIds(Constant.RESOURCE_ORDER)
                 .authorities("ROLE_USER")
-                .scopes("read", "trust")
-                .redirectUris("http://localhost:8080/","http://localhost:8080/login/admin")
+                .scopes("read", "write", "trust")
+                .redirectUris("http://localhost:8080/", "http://localhost:8080/login/admin")
                 .and()
 
                 .withClient("client_4")
@@ -94,7 +95,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.authenticationManager(authenticationManager)
                 //token 存入 redis
-                .tokenStore(new MyRedisTokenStore(redisConnectionFactory))
+//                .tokenStore(new MyRedisTokenStore(redisConnectionFactory))
+                .tokenStore(new InMemoryTokenStore())
 //                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
 //                .userDetailsService(userDetailsService)
         ;

@@ -22,11 +22,24 @@ public class HomeController {
     }
 
     @RequestMapping("/user")
-    public Principal user(Principal user, @RequestParam(name = "code", required = false) String code) {
-        if (!StringUtils.isEmpty(code)) {
-            System.out.println("oauth-authorize code is : " + code);
-        }
+    public Principal user(Principal user) {
         return user;
+    }
+
+    @RequestMapping("/read/{id}")
+    public String read(@PathVariable String id) {
+        return "Hello World read : " + id;
+    }
+
+    @RequestMapping("/write/{id}")
+    public String write(@PathVariable String id) {
+        return "Hello World write : " + id;
+    }
+
+    @RolesAllowed("ROLE_USER")
+    @RequestMapping("/index")
+    public String index() {
+        return "Hello World";
     }
 
     @RolesAllowed("ROLE_USER")

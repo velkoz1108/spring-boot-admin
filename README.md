@@ -57,3 +57,154 @@
 * traceId — 为一个请求分配的ID号，用来标识一条请求链路。
 * spanId — 表示一个基本的工作单元，一个请求可以包含多个步骤，每个步骤都拥有自己的spanId。一个请求包含一个TraceId，多个SpanId
 * export — 布尔类型。表示是否要将该信息输出到类似Zipkin这样的聚合器进行收集和展示。
+
+
+##Security默认登录页面和退出页面
+since 5.0
+```
+org.springframework.security.web.server.ui.LoginPageGeneratingWebFilter.createPage()
+org.springframework.security.web.server.ui.LogoutPageGeneratingWebFilter.createPage()
+```
+* 5.1.1的LoginPage
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Please sign in</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" 
+	rel="stylesheet" 
+	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<body>
+    <div class="container">
+	    <form class="form-signin" method="post" action="/login">
+		    <h2 class="form-signin-heading">Please sign in</h2>
+			
+			<--!isError-->
+			<div class="alert alert-danger" role="alert">Invalid credentials</div>
+			
+			<--!isLogoutSuccess-->
+			<div class=\"alert alert-success\" role=\"alert\">You have been signed out</div>"
+			
+			<p>
+				<label for="username" class="sr-only">Username</label>
+				<input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+			</p>
+			<p>
+				<label for="password" class="sr-only">Password</label>
+				<input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+			</p>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		</form>
+		
+		<div class="container">
+			<h2 class="form-signin-heading">Login with OAuth 2.0</h2>
+			<table class="table table-striped">
+			<tr>
+				<td>
+					<a href="clientAuthenticationUrl">clientName</a>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
+```
+* 5.1.1的LogoutPage
+```
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Confirm Log Out?</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+   </head>
+   <body>
+    <div class="container">
+        <form class="form-signin" method="post" action="/logout">
+            <h2 class="form-signin-heading">Are you sure you want to log out?</h2>
+            <input type="hidden" name="tokenParameterName" value="tokenValue">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log Out</button>
+        </form>
+    </div>
+   </body>
+</html>
+ ```
+
+since 2.0
+```
+org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter.generateLoginPageHtml()
+```
+页面结构如下：
+```
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body onload='document.f.usernameParameter.focus();'>
+    <p>
+        <font color='red'>Your login attempt was not successful, try again.<br/><br/>Reason: errorMsg</font>
+    </p>
+    <p>
+        <font color='green'>You have been logged out</font>
+    </p>
+    
+    <h3>Login with Username and Password</h3>
+    
+    <--!formLoginEnabled-->
+    <form name='f' action='authenticationUrl' method='POST'>
+        <table>
+            <tr>
+                <td>User:</td>
+                <td><input type='text' name='usernameParameter' value=''></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type='password' name='passwordParameter'/></td>
+            </tr>
+            <tr>
+                <td><input type='checkbox' name='rememberMeParameter'/></td>
+                <td>Remember me on this computer.</td>
+            </tr>
+            <tr>
+                <td colspan='2'><input name="submit" type="submit" value="Login"/></td>
+            </tr>
+            <input name='token' type="hidden" value="token" />
+        </table>
+    </form>
+    
+    <--!formLoginEnabled-->
+    <h3>Login with OpenID Identity</h3>
+    <form name='oidf' action='openIDauthenticationUrl' method='POST'>
+        <table>
+            <tr>
+                <td>Identity:</td>
+                <td><input type='text' size='30' name='openIDusernameParameter'/></td>
+            </tr>
+            <tr>
+                <td><input type='checkbox' name='openIDrememberMeParameter'></td>
+                <td>Remember me on this computer.</td>
+            </tr>
+            <tr>
+                <td colspan='2'><input name="submit" type="submit" value="Login"/></td>
+            </tr>
+            <input name='token' type="hidden" value="token" />
+        </table>
+    </form>
+    
+</body>
+</html>
+```
+#####Security调试
+设置 `@EnableWebSecurity(debug = true)` 看到详细的日志输出，可以定位问题。

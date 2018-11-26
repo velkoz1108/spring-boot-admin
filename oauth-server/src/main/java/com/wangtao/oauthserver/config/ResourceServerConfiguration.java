@@ -42,9 +42,22 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     }
 
     /**
-     * authenticated()的路径需要DEMO_RESOURCE_ID才可以访问
+     * 通过Web登录访问 http://localhost:8088/write/1
+     * 返回错误：
+     * Full authentication is required to access this resource
      * <p>
-     * 如果没有配置security默认的登录页面无法访问，坑了我很久。报错提示： Full authentication is required to access this resource
+     * /read/1 在ResourceServerConfiguration中配置了，需通过token访问
+     * 如：
+     * http://localhost:8088/write/1?access_token=79abddb6-d3bb-4937-8eac-f93dc336f325
+     * <p>
+     * <p>
+     * 授权是只给了客户端write的scope，访问http://localhost:8088/read/1 时
+     * 返回范围不足的错误
+     * {
+     * "error": "insufficient_scope",
+     * "error_description": "Insufficient scope for this resource",
+     * "scope": "read"
+     * }
      *
      * @param http
      * @throws Exception
@@ -54,10 +67,13 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         http
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .requestMatchers()
-                .antMatchers("/user**", "/product/**", "/order/**")
-                .and().authorizeRequests()
-                .antMatchers("/user**", "/product/**", "/order/**")
-                .authenticated();
+                .requestMatchers().antMatchers("/user**", "/read/**", "/write/**")
+                .and()
+                .authorizeRequests().antMatchers("/read/**")
+                .access("#oauth2.hasScope('read') or (!#oauth2.isOAuth() and hasRole('ROLE_USER'))")
+                .antMatchers("/write/**")
+                .access("#oauth2.hasScope('write') ")
+
+        ;
     }
 }
