@@ -1,13 +1,14 @@
 package com.wangtao.oauthserver.config;
 
 import com.wangtao.oauthserver.common.Constant;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 
 /**
  * @author : wangtao
@@ -23,6 +24,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+
+    /*jwt*/
+//    @Autowired
+//    DefaultTokenServices defaultTokenServices;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
 
@@ -39,6 +45,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
          * 只能加一个resourceId,多个会被覆盖，最后一个生效
          */
         resources.resourceId(Constant.RESOURCE_ORDER);
+
+        /*jwt*/
+//        resources.tokenServices(defaultTokenServices);
     }
 
     /**

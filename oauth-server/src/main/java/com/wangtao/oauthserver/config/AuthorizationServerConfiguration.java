@@ -3,9 +3,7 @@ package com.wangtao.oauthserver.config;
 import com.wangtao.oauthserver.common.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +12,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+
+import java.util.Arrays;
 
 /**
  * @author : wangtao
@@ -93,15 +94,25 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+
+        /*jwt*/
+//        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+//        tokenEnhancerChain.setTokenEnhancers(
+//                Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+
         endpoints.authenticationManager(authenticationManager)
                 //token 存入 redis
 //                .tokenStore(new MyRedisTokenStore(redisConnectionFactory))
                 .tokenStore(new InMemoryTokenStore())
+//                .tokenStore(tokenStore())
 //                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
 //                .userDetailsService(userDetailsService)
+
+//                .tokenEnhancer(tokenEnhancerChain)
         ;
 
     }
+
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
@@ -113,4 +124,35 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .checkTokenAccess("isAuthenticated()")
                 .allowFormAuthenticationForClients();
     }
+
+    /*----------jwt start---------------*/
+//    @Bean
+//    public TokenStore tokenStore() {
+//        return new JwtTokenStore(accessTokenConverter());
+//    }
+//
+//    @Bean
+//    public JwtAccessTokenConverter accessTokenConverter() {
+//        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//        converter.setSigningKey("123");
+//        return converter;
+//    }
+//
+//    @Bean
+//    @Primary
+//    public DefaultTokenServices tokenServices() {
+//        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+//        defaultTokenServices.setTokenStore(tokenStore());
+//        defaultTokenServices.setSupportRefreshToken(true);
+//        return defaultTokenServices;
+//    }
+//
+//    @Bean
+//    public TokenEnhancer tokenEnhancer() {
+//        return new JwtTokenEnhancer();
+//    }
+
+
+
+    /*--------------jwt end-------------*/
 }

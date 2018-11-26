@@ -30,7 +30,23 @@
     请求： http://localhost:8080/oauth/check_token?token=e44300c7-6769-48d1-b59a-4f3da450e376
     响应： {"aud":["client1","order"],"scope":["all"],"active":true,"exp":1541356376,"authorities":["ROLE_CLIENT1"],"client_id":"client_1"}
 
+5.JWTToken
+    按照上述获取token的方式请求
 
+    获取code之后回去token
+    请求： http://localhost:8088/oauth/token?code=rWz2nJ&client_id=client_3&client_secret=123456&redirect_uri=http://localhost:8080/&grant_type=authorization_code
+    响应：
+        {
+            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsib3JkZXIiXSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiLCJ0cnVzdCJdLCJvcmdhbml6YXRpb24iOiJhZG1pblJoSnEiLCJleHAiOjE1NDMyNjgzMDAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiIxNWRjNjFhOS1lY2Q3LTQ4YzgtYjk5My0zNDRkZDUwMGUzNmEiLCJjbGllbnRfaWQiOiJjbGllbnRfMyJ9.s6u_ZBKkZ8PTf0i3ubnYs97Fbgac2BykzYLR6mhdkkM",
+            "token_type": "bearer",
+            "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsib3JkZXIiXSwidXNlcl9uYW1lIjoiYWRtaW4iLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiLCJ0cnVzdCJdLCJvcmdhbml6YXRpb24iOiJhZG1pblJoSnEiLCJhdGkiOiIxNWRjNjFhOS1lY2Q3LTQ4YzgtYjk5My0zNDRkZDUwMGUzNmEiLCJleHAiOjE1NDU4MTcxMDAsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiIyNGNhNThiOC1hNzQ0LTRjMDgtODFhYi01Nzk3NTU5MDJkOWQiLCJjbGllbnRfaWQiOiJjbGllbnRfMyJ9.h-2NQEaYKVfWMSEruc34JJcI2AjYF_Ald8Mrr8-7YvU",
+            "expires_in": 43198,
+            "scope": "read write trust",
+            "organization": "adminRhJq",
+            "jti": "15dc61a9-ecd7-48c8-b993-344dd500e36a"
+        }
+
+    访问受限资源同上。
 
 疑问：
 当设置SecurityConfiguration的@Order(6)，AuthorizationServerConfiguration的@Order(1)，ResourceServerConfiguration的@Order(2)，
