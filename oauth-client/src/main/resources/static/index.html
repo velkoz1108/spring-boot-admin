@@ -13,20 +13,45 @@
     <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
 </head>
 <body>
-<h1>Demo</h1>
+
 <div class="container">
+    <h1>Welcome</h1>
+
+    <form class="form-signin" method="post" action="/login">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <!--<input name='token' type="hidden" value="token"/>-->
+        <!--isError-->
+        <div class="alert alert-danger" role="alert" style="display: none">Invalid credentials</div>
+        <!--isLogoutSuccess-->
+        <div class="alert alert-success" role="alert" style="display: none">You have been signed out</div>
+        <p>
+            <label for="username" class="sr-only">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required
+                   autofocus>
+        </p>
+        <p>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                   required>
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+    <br>
+
     <div class="container unauthenticated">
-        <div>
-            With Facebook: <a href="/login/facebook">click here</a>
-        </div>
-        <div>
-            With Github: <a href="/login/github">click here</a>
-        </div>
-        <div>
-            With Myself: <a href="/login/myself">click here</a>
-        </div>
-        <div>
-            With Admin: <a href="/login/admin">click here</a>
+        <div class="row">
+            <div class="col-sm-3">
+                <a href="/login/facebook" class="btn btn-sm btn-info">Facebook</a>
+            </div>
+            <div class="col-sm-3">
+                <a href="/login/github" class="btn btn-sm btn-info">Github</a>
+            </div>
+            <div class="col-sm-3">
+                <a href="/login/myself" class="btn btn-sm btn-info">Myself(外网)</a>
+            </div>
+            <div class="col-sm-3">
+                <a href="/login/admin" class="btn btn-sm btn-info">Admin(本机)</a>
+            </div>
         </div>
     </div>
     <div class="container authenticated" style="display:none">
