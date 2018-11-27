@@ -115,8 +115,8 @@ public class SecondaryDbConfig {
      * @param secondaryDataSource
      * @return
      */
-    @Bean(name = "primaryTransactionManager")
-    public PlatformTransactionManager primaryTransactionManager(@Qualifier("secondaryDataSource") DataSource secondaryDataSource) {
+    @Bean(name = "secondaryTransactionManager")
+    public PlatformTransactionManager secondaryTransactionManager(@Qualifier("secondaryDataSource") DataSource secondaryDataSource) {
         return new DataSourceTransactionManager(secondaryDataSource);
     }
 
