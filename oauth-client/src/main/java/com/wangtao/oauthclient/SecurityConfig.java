@@ -24,6 +24,7 @@ import java.util.List;
 /**
  * @author : wangtao
  * @date : 2018/11/23 13:56  星期五
+ * 参考文档： https://spring.io/guides/tutorials/spring-boot-oauth2/
  */
 @EnableOAuth2Sso
 @EnableWebSecurity(debug = true)

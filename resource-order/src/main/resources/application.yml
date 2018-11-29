@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+
+security:
+  oauth2:
+    resource:
+      tokenInfoUri: http://localhost:8088/oauth/check_token
+      userInfoUri: http://localhost:8088/user
+      preferTokenInfo: true
+    client:
+      accessTokenUri: http://localhost:8088/oauth/token
+      userAuthorizationUri: http://localhost:8088/oauth/authorize
+      clientId: client_3
+      clientSecret: 123456
