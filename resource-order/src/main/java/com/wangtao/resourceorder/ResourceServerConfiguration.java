@@ -11,8 +11,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  * @date : 2018/11/29 11:08  星期四
  */
 
-//@Configuration
-//@EnableResourceServer
+@Configuration
+@EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -23,7 +23,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/order/**").authenticated()
+                .antMatchers("/order/**","product/**").authenticated()
                 
 //              Insufficient scope for this resource  insufficient_scope
                 .antMatchers("/read/**").access("#oauth2.hasScope('read')")
