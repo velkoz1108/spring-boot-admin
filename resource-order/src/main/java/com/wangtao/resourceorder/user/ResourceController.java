@@ -1,4 +1,4 @@
-package com.wangtao.resourceorder;
+package com.wangtao.resourceorder.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

@@ -78,7 +78,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .resourceIds(Constant.RESOURCE_ORDER)
                 .authorities("ROLE_USER")
                 .scopes("read", "write", "trust")
-                .redirectUris("http://localhost:8080/", "http://localhost:8080/login/admin")
+                .redirectUris("http://localhost:8080/", "http://localhost:8080/login", "http://localhost:8080/login/admin")
                 .and()
 
                 .withClient("client_4")

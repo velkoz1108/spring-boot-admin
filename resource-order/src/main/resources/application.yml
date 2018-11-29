@@ -1,7 +1,10 @@
 server:
   port: 8080
-
-
+  servlet:
+    context-path: /
+    session:
+      cookie:
+        name: ORDER_CLIENT_SESSIONID
 logging:
   level:
     org.springframework.security: DEBUG
