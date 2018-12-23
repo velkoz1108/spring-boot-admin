@@ -1,10 +1,16 @@
 package com.wangtao.mybatisplusdemo;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.LocalDateTime;
+
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wangtao.mybatisplusdemo.common.AgeEnum;
+import com.wangtao.mybatisplusdemo.entity.TestTime;
+import com.wangtao.mybatisplusdemo.mapper.TestTimeMapper;
 import com.wangtao.mybatisplusdemo.mapper.UserMapper;
 import com.wangtao.mybatisplusdemo.pojo.User;
 import org.junit.Assert;
@@ -54,13 +60,13 @@ public class MybatisPlusDemoApplicationTests {
     @Test
     public void insert1() {
         User user = new User();
-        user.setName("TestInsert26");
+        user.setName("TestInsert38");
         user.setAge(AgeEnum.TWENTY_SIX);
-        user.setEmail("123@qq.com");
+        user.setEmail("12113@qq.com");
 
 
         int insert = userMapper.insert(user);
-        System.out.println("insert = " + insert);
+        System.out.println("user = " + user);
     }
 
     @Test
@@ -68,6 +74,21 @@ public class MybatisPlusDemoApplicationTests {
 
         int del = userMapper.deleteById(1070877006321057793L);
         System.out.println("del = " + del);
+
+    }
+
+    @Autowired
+    private TestTimeMapper testTimeMapper;
+
+    @Test
+    public void testTime() {
+        TestTime testTime = new TestTime();
+        testTime.setCreateTime(LocalTime.now());
+        testTime.setCreateTime2(LocalDateTime.now());
+        testTime.setCreateTime3(LocalDate.now());
+        testTime.setCreateTime4(LocalDateTime.now());
+
+        int insert = testTimeMapper.insert(testTime);
 
     }
 }
