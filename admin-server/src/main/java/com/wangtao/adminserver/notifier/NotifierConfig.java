@@ -63,11 +63,11 @@ public class NotifierConfig {
 //        return new CustomNotifier(repository);
 //    }
 
-    @Bean
-    public Notifier telegramNotifier() {
-        TelegramNotifier telegramNotifier = new TelegramNotifier(repository);
-        telegramNotifier.setChatId("742284138");
-        telegramNotifier.setAuthToken("794088865:AAGI_-l2vk8OL7fAar2USPHuJ-OrLs5DHQI");
-        return telegramNotifier;
-    }
+//    @Bean
+//    public Notifier telegramNotifier() {
+//        TelegramNotifier telegramNotifier = new TelegramNotifier(repository);
+//        telegramNotifier.setChatId("742284138");
+//        telegramNotifier.setAuthToken("794088865:AAGI_-l2vk8OL7fAar2USPHuJ-OrLs5DHQI");
+//        return telegramNotifier;
+//    }
 }
